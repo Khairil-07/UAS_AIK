@@ -17,11 +17,6 @@ class Gerakan extends Model
         'video_url',
     ];
 
-    public function mode(): BelongsTo
-    {
-        return $this->belongsTo(Mode::class);
-    }
-
     public function bacaans(): HasMany
     {
         return $this->hasMany(Bacaan::class);
