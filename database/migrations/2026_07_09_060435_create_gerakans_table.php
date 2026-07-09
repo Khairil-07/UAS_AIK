@@ -15,11 +15,6 @@ return new class extends Migration
     Schema::create('gerakans', function (Blueprint $table) {
     $table->id();
 
-    $table->foreignId('mode_id')
-          ->constrained('modes')
-          ->cascadeOnUpdate()
-          ->cascadeOnDelete();
-
     $table->string('nama_gerakan',100);
     $table->smallInteger('urutan');
 

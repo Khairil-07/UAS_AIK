@@ -12,8 +12,4 @@ class Mode extends Model
         'deskripsi',
     ];
 
-    public function gerakans(): HasMany
-    {
-        return $this->hasMany(Gerakan::class);
-    }
 }

@@ -18,6 +18,8 @@ return new class extends Migration
           ->constrained('gerakans')
           ->cascadeOnUpdate()
           ->cascadeOnDelete();
+    
+    $table->string('judul',100);
 
     $table->smallInteger('urutan')->default(1);
 
