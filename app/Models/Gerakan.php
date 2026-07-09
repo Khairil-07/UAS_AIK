@@ -11,6 +11,7 @@ class Gerakan extends Model
     protected $fillable = [
         'mode_id',
         'nama_gerakan',
+        'subjudul',
         'urutan',
         'deskripsi',
         'gambar_url',

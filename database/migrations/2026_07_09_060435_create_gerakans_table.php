@@ -21,6 +21,7 @@ return new class extends Migration
           ->cascadeOnDelete();
 
     $table->string('nama_gerakan',100);
+    $table->string('subjudul',100)->nullable();
     $table->smallInteger('urutan');
 
     $table->text('deskripsi')->nullable();
