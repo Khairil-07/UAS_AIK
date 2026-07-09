@@ -14,6 +14,7 @@ class Bacaan extends Model
         'teks_latin',
         'terjemahan',
         'audio_url',
+        'audio_indonesia',
         'sumber',
     ];
 
