@@ -3,8 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Mode extends Model
 {
-    //
+    protected $fillable = [
+        'nama_mode',
+        'deskripsi',
+    ];
+
+    public function gerakans(): HasMany
+    {
+        return $this->hasMany(Gerakan::class);
+    }
 }
