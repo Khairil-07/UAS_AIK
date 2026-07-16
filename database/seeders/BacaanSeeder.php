@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Bacaan;
 use App\Models\Gerakan;
+use App\Models\Mode;
 use Illuminate\Database\Seeder;
+
 
 class BacaanSeeder extends Seeder
 {
@@ -199,24 +201,34 @@ class BacaanSeeder extends Seeder
             ],
         ];
 
-        foreach ($data as $item) {
+                $modes = Mode::with('gerakans')->get();
 
-            $gerakan = Gerakan::where(
-                'nama_gerakan',
-                $item['gerakan']
-            )->firstOrFail();
+        foreach ($modes as $mode) {
 
-            Bacaan::create([
-                'gerakan_id' => $gerakan->id,
-                'judul' => $item['judul'],
-                'urutan' => $item['urutan'],
-                'teks_arab' => $item['teks_arab'],
-                'teks_latin' => $item['teks_latin'],
-                'terjemahan' => $item['terjemahan'],
-                'audio_url' => $item['audio_url'],
-                'audio_indonesia' => $item['audio_indonesia'],
-                'sumber' => $item['sumber'],
-            ]);}
+            foreach ($data as $item) {
+
+                $gerakan = $mode->gerakans
+                    ->where('nama_gerakan', $item['gerakan'])
+                    ->first();
+
+                if (!$gerakan) {
+                    continue;
+                }
+
+                Bacaan::create([
+                    'gerakan_id' => $gerakan->id,
+                    'judul' => $item['judul'],
+                    'urutan' => $item['urutan'],
+                    'teks_arab' => $item['teks_arab'],
+                    'teks_latin' => $item['teks_latin'],
+                    'terjemahan' => $item['terjemahan'],
+                    'audio_url' => $item['audio_url'],
+                    'audio_indonesia' => $item['audio_indonesia'],
+                    'sumber' => $item['sumber'],
+                ]);
+            }
+
+        }
     }
     
 }

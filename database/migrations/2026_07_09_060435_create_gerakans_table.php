@@ -11,21 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
-    Schema::create('gerakans', function (Blueprint $table) {
-    $table->id();
+        Schema::create('gerakans', function (Blueprint $table) {
 
-    $table->string('nama_gerakan',100);
-    $table->smallInteger('urutan');
+            $table->id();
 
-    $table->text('deskripsi')->nullable();
+            $table->foreignId('mode_id')
+                ->constrained()
+                ->cascadeOnDelete();
 
-    $table->string('gambar_url')->nullable();
-    $table->string('video_url')->nullable();
+            $table->string('nama_gerakan', 100);
+            $table->smallInteger('urutan');
 
-    $table->timestamps();
-});
+            $table->text('deskripsi')->nullable();
 
+            $table->string('gambar_anak')->nullable();
+
+            $table->string('gambar_dewasa')->nullable();
+            $table->string('video_url')->nullable();
+
+            $table->timestamps();
+        });
     }
 
     /**

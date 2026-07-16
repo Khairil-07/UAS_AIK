@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Gerakan;
+use App\Models\Mode;
 use Illuminate\Database\Seeder;
 
 class GerakanSeeder extends Seeder
@@ -85,8 +86,23 @@ class GerakanSeeder extends Seeder
             ],
         ];
 
-        foreach ($gerakans as $gerakan) {
-            Gerakan::create($gerakan);
+        $modes = Mode::all();
+
+        foreach ($modes as $mode) {
+
+            foreach ($gerakans as $gerakan) {
+
+                Gerakan::create([
+                    'mode_id'       => $mode->id,
+                    'nama_gerakan'  => $gerakan['nama_gerakan'],
+                    'urutan'        => $gerakan['urutan'],
+                    'deskripsi'     => $gerakan['deskripsi'],
+                    'gambar_url'    => $gerakan['gambar_url'],
+                    'video_url'     => $gerakan['video_url'],
+                ]);
+
+            }
+
         }
     }
 }

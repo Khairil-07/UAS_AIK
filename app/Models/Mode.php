@@ -10,6 +10,11 @@ class Mode extends Model
     protected $fillable = [
         'nama_mode',
         'deskripsi',
+        'video_url',
     ];
 
+    public function gerakans(): HasMany
+    {
+        return $this->hasMany(Gerakan::class);
+    }
 }
