@@ -1,0 +1,8 @@
+*
+!audio/
+!audio/**
+!gerakan/
+!gerakan/**
+!video/
+video/*.mp4
+!.gitignore
