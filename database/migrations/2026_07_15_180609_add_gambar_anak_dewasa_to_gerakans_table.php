@@ -13,14 +13,17 @@ return new class extends Migration
 {
     Schema::table('gerakans', function (Blueprint $table) {
 
-        $table->string('gambar_anak')
-            ->nullable()
-            ->after('deskripsi');
+        if (!Schema::hasColumn('gerakans', 'gambar_anak')) {
+            $table->string('gambar_anak')
+                ->nullable()
+                ->after('deskripsi');
+        }
 
-
-        $table->string('gambar_dewasa')
-            ->nullable()
-            ->after('gambar_anak');
+        if (!Schema::hasColumn('gerakans', 'gambar_dewasa')) {
+            $table->string('gambar_dewasa')
+                ->nullable()
+                ->after('gambar_anak');
+        }
 
     });
 }

@@ -526,278 +526,217 @@
 @endif
 
 @endif
-{{-- =========================
-        VIDEO GERAKAN
-========================= --}}
-<div class="bg-white rounded-3xl overflow-hidden border border-red-100 shadow-lg">
-
-    <div class="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-4 flex items-center gap-3">
-
-        <span class="text-2xl">🎥</span>
-
-        <div>
-
-            <h2 class="text-xl font-bold">
-                Video Pembelajaran
-            </h2>
-
-            <p class="text-sm text-red-100">
-                Video otomatis menuju gerakan yang sedang dipelajari
-            </p>
-
-        </div>
-
-    </div>
-
-    <div class="p-6">
-
-        <video
-            id="videoPembelajaran"
-            controls
-            preload="metadata"
-            class="w-full rounded-2xl shadow">
-
-            <source
-                src="{{ asset('storage/'.$gerakan->mode->video_pembelajaran) }}"
-                type="video/mp4">
-
-            Browser Anda tidak mendukung video.
-
-        </video>
-
-    </div>
-
-</div>
-
-
-
-{{-- =========================
-        CARA MELAKUKAN
-========================= --}}
-
-<div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-green-100">
-
-    <div class="bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-4">
-
-        <h2 class="text-xl font-bold text-white flex items-center gap-2">
-
-            🕌 Cara Melakukan Gerakan
-
+<div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+    <div class="bg-gradient-to-r from-red-600 to-rose-600 px-6 py-4">
+        <h2 class="text-xl font-bold text-white">
+            🎥 Video Gerakan Sholat
         </h2>
-
     </div>
+    <div class="p-6">
+        <div class="relative w-full pt-[56.25%] rounded-2xl overflow-hidden bg-black">
+            @php
+                // Cek apakah mode saat ini adalah mode anak
+                $isAnak = str_contains(strtolower($gerakan->mode->nama_mode), 'anak');
+                
+                // 1. Tentukan detik MULAI gerakan saat ini
+                $startTime = $isAnak ? $gerakan->video_start_anak : $gerakan->video_start_dewasa;
+                
+                // 2. Tentukan detik BERHENTI (otomatis mengambil detik mulai dari gerakan selanjutnya)
+                $endTime = null;
+                if ($next) {
+                    $endTime = $isAnak ? $next->video_start_anak : $next->video_start_dewasa;
+                }
 
-    <div class="p-7">
-
-        <p class="leading-9 text-lg text-gray-700">
-
-            {{ $gerakan->deskripsi }}
-
-        </p>
-
+                // 3. Ambil data skip dari database
+                $skipStart = $isAnak ? $gerakan->skip_start_anak : $gerakan->skip_start_dewasa;
+                $skipEnd = $isAnak ? $gerakan->skip_end_anak : $gerakan->skip_end_dewasa;
+            @endphp
+            
+            {{-- PERBAIKAN: Menambahkan id="videoPembelajaran" dan merapikan tautan src iframe --}}
+            <iframe 
+                id="videoPembelajaran"
+                class="absolute top-0 left-0 w-full h-full"
+                src="https://www.youtube.com/embed/{{ $gerakan->mode->video_pembelajaran }}?start={{ $startTime }}&enablejsapi=1" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+            </iframe>
+        </div>
     </div>
-
 </div>
 
-
-
-{{-- =========================
-        NAVIGASI
-========================= --}}
-
-<div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6">
-
-    <div class="grid lg:grid-cols-3 gap-6 items-center">
-
-        {{-- Previous --}}
-        <div>
-
-            @if($previous)
-
-            <a
-                href="{{ route('gerakan.show',$previous->id) }}"
-                class="group flex items-center gap-4 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-2xl p-4 transition">
-
-                <div class="w-12 h-12 rounded-full bg-sky-500 text-white flex items-center justify-center group-hover:-translate-x-1 transition">
-
-                    ←
-
-                </div>
-
-                <div>
-
-                    <p class="text-xs text-gray-500">
-
-                        Sebelumnya
-
-                    </p>
-
-                    <p class="font-bold text-sky-700">
-
-                        {{ $previous->nama_gerakan }}
-
-                    </p>
-
-                </div>
-
-            </a>
-
-            @else
-
-            <div class="rounded-2xl bg-gray-100 p-6 text-center">
-
-                <div class="text-4xl mb-2">
-
-                    🏁
-
-                </div>
-
-                <p class="font-semibold text-gray-500">
-
-                    Awal Pembelajaran
-
-                </p>
-
-            </div>
-
-            @endif
-
-        </div>
-
-
-
-        {{-- Tengah --}}
-        <div class="text-center">
-
-            <div class="mx-auto w-28 h-28 rounded-full bg-gradient-to-br from-sky-500 to-emerald-500 shadow-xl flex flex-col justify-center text-white">
-
-                <span class="text-3xl font-bold">
-
-                    {{ $current }}
-
-                </span>
-
-                <span class="text-sm">
-
-                    dari {{ $totalGerakan }}
-
-                </span>
-
-            </div>
-
-            <p class="mt-4 text-gray-500">
-
-                Terus Semangat Belajar 💪
-
+{{-- ===========================================
+        CARA MELAKUKAN
+=========================================== --}}
+<div class="bg-white rounded-3xl shadow-lg border border-gray-100 overflow-hidden">
+    <div class="bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-4">
+        <h2 class="text-xl font-bold text-white">
+            📌 Cara Melakukan Gerakan
+        </h2>
+    </div>
+    <div class="p-8">
+        <div class="bg-orange-50 rounded-2xl border border-orange-100 p-6">
+            <p class="leading-9 text-lg text-gray-700">
+                {{ $gerakan->deskripsi }}
             </p>
-
         </div>
+    </div>
+</div>
 
-
-
-        {{-- Next --}}
-        <div>
-
-            @if($next)
-
-            <a
-                href="{{ route('gerakan.show',$next->id) }}"
-                class="group flex items-center justify-between bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-2xl p-4 transition">
-
-                <div>
-
-                    <p class="text-xs text-gray-500">
-
-                        Selanjutnya
-
-                    </p>
-
-                    <p class="font-bold text-emerald-700">
-
-                        {{ $next->nama_gerakan }}
-
-                    </p>
-
-                </div>
-
-                <div class="w-12 h-12 rounded-full bg-emerald-500 text-white flex items-center justify-center group-hover:translate-x-1 transition">
-
-                    →
-
-                </div>
-
-            </a>
-
-            @else
-
-            <div class="rounded-2xl bg-green-100 border border-green-200 p-6 text-center">
-
-                <div class="text-5xl">
-
-                    🎉
-
-                </div>
-
-                <h3 class="font-bold text-green-700 mt-2">
-
-                    Selamat!
-
-                </h3>
-
-                <p class="text-green-600 text-sm mt-1">
-
-                    Semua gerakan telah selesai dipelajari.
-
-                </p>
-
+{{-- ===========================================
+        INFORMASI, TIPS & MOTIVASI
+=========================================== --}}
+<div class="grid md:grid-cols-3 gap-6">
+    <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6">
+        <div class="flex items-center gap-3 mb-5">
+            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
+                📋
             </div>
-
-            @endif
-
+            <h3 class="font-bold text-lg">Informasi</h3>
         </div>
-
+        <div class="space-y-4">
+            <div class="flex justify-between">
+                <span class="text-gray-500">Mode</span>
+                <span class="font-semibold text-green-700">{{ $gerakan->mode->nama_mode }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-500">Urutan</span>
+                <span class="font-semibold">{{ $gerakan->urutan }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-500">Jumlah Bacaan</span>
+                <span class="font-semibold">{{ $gerakan->bacaans->count() }}</span>
+            </div>
+        </div>
     </div>
 
+    {{-- Tips --}}
+    <div class="bg-gradient-to-br from-green-600 to-emerald-700 rounded-3xl p-6 text-white shadow-xl">
+        <div class="text-5xl mb-5">💡</div>
+        <h3 class="text-2xl font-bold">Tips Belajar</h3>
+        <p class="mt-4 leading-8 text-green-100">
+            Dengarkan audio Arab, pahami artinya melalui audio Indonesia, kemudian praktikkan gerakannya sambil melihat video agar lebih mudah dipahami.
+        </p>
+    </div>
+
+    {{-- Motivasi --}}
+    <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6">
+        <div class="text-5xl">🌙</div>
+        <h3 class="mt-4 font-bold text-xl">Motivasi</h3>
+        <blockquote class="mt-5 italic text-gray-600 leading-8 border-l-4 border-green-600 pl-4">
+            "Dirikanlah shalat untuk mengingat-Ku."
+        </blockquote>
+        <p class="mt-4 text-sm text-gray-400">QS. Thaha : 14</p>
+    </div>
 </div>
 
-            </div> {{-- Panel Kanan --}}
+</div> {{-- Penutup PANEL KANAN --}}
+</div> {{-- Penutup GRID --}}
+</div> {{-- Penutup CONTAINER ATAS --}}
 
-        </div> {{-- Grid --}}
+{{-- ===========================================
+        PAGINASI (PREVIOUS / NEXT)
+=========================================== --}}
+<div class="max-w-7xl mx-auto px-6 pb-16 mt-8">
+    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6">
+        <div class="grid grid-cols-3 gap-5 items-center">
+            {{-- Previous --}}
+            <div>
+                @if($previous)
+                <a href="{{ route('gerakan.show', $previous->id) }}" class="flex items-center gap-3 bg-gray-100 hover:bg-gray-200 rounded-2xl p-4 transition">
+                    <div class="text-3xl">⬅️</div>
+                    <div>
+                        <p class="text-xs text-gray-500">Sebelumnya</p>
+                        <p class="font-semibold text-sm md:text-base">{{ $previous->nama_gerakan }}</p>
+                    </div>
+                </a>
+                @else
+                <div class="bg-gray-100 rounded-2xl p-4 text-center text-gray-400 text-sm">
+                    Awal Gerakan
+                </div>
+                @endif
+            </div>
 
-    </div> {{-- Container --}}
+            {{-- Tengah --}}
+            <div class="text-center">
+                <div class="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-green-600 to-emerald-500 text-white shadow-xl">
+                    <div>
+                        <div class="text-2xl md:text-3xl font-bold">{{ $current }}</div>
+                        <div class="text-xs md:text-sm">/ {{ $totalGerakan }}</div>
+                    </div>
+                </div>
+            </div>
 
+            {{-- Next --}}
+            <div>
+                @if($next)
+                <a href="{{ route('gerakan.show', $next->id) }}" class="flex justify-end items-center gap-3 bg-green-600 hover:bg-green-700 text-white rounded-2xl p-4 transition">
+                    <div class="text-right">
+                        <p class="text-xs text-green-100">Selanjutnya</p>
+                        <p class="font-semibold text-sm md:text-base">{{ $next->nama_gerakan }}</p>
+                    </div>
+                    <div class="text-3xl">➡️</div>
+                </a>
+                @else
+                <div class="bg-green-600 rounded-2xl p-4 text-center text-white font-bold text-sm">
+                    ✔ Pembelajaran Selesai
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>
+
+
+{{-- JAVASCRIPT BARU UNTUK YOUTUBE (MENGATUR AUTOMATIC JUMP & AUTO PAUSE) --}}
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
+    let player;
 
-document.addEventListener("DOMContentLoaded", function () {
+    // Fungsi otomatis dipanggil setelah pustaka YouTube API selesai dimuat
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('videoPembelajaran', {
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
 
-    const video = document.getElementById("videoPembelajaran");
+    function onPlayerStateChange(event) {
+        // Pantau durasi hanya saat video sedang aktif diputar (PLAYING = 1)
+        if (event.data == YT.PlayerState.PLAYING) {
+            
+            // Mengambil data detik dari Laravel (jika tidak ada, otomatis diisi null)
+            const skipStart = {{ $skipStart ?? 'null' }};
+            const skipEnd = {{ $skipEnd ?? 'null' }};
+            const endTime = {{ $endTime ?? 'null' }};
 
-    const startTime = {{ $videoStart }};
+            const tracker = setInterval(() => {
+                // Jika video dijeda atau dihentikan, stop pemantauan untuk hemat memori
+                if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                    clearInterval(tracker);
+                    return;
+                }
 
-    if (!video) return;
+                let currentTime = player.getCurrentTime();
 
-    video.addEventListener("loadedmetadata", function () {
+                // 1. LOGIKA SKIP BAGIAN TENGAH
+                if (skipStart !== null && skipEnd !== null) {
+                    if (currentTime >= skipStart && currentTime < skipEnd) {
+                        player.seekTo(skipEnd, true);
+                        console.log(`Berhasil melompati menit tengah dari detik ${skipStart} ke ${skipEnd}`);
+                    }
+                }
 
-        console.log("loadedmetadata");
-
-        video.currentTime = startTime;
-
-    });
-
-    video.addEventListener("seeked", function () {
-
-        console.log("Berhasil lompat ke:", video.currentTime);
-
-    });
-
-    video.addEventListener("error", function () {
-
-        console.log("Video error");
-
-    });
-
-});
-
+                // 2. LOGIKA PAUSE OTOMATIS (Batas waktu gerakan selesai)
+                if (endTime !== null && currentTime >= endTime) {
+                    player.pauseVideo();
+                    clearInterval(tracker);
+                    console.log(`Video dijeda otomatis karena masuk gerakan berikutnya di detik ${endTime}`);
+                }
+            }, 200); // Diperiksa setiap 0.2 detik agar transisi perpindahan mulus
+        }
+    }
 </script>
 @endsection

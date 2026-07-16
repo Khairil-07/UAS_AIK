@@ -18,6 +18,11 @@ class Gerakan extends Model
         'gambar_dewasa',
         'video_start_dewasa',
         'video_start_anak',
+        
+        'skip_start_anak',
+        'skip_end_anak',
+        'skip_start_dewasa',
+        'skip_end_dewasa',
     ];
 
     public function bacaans(): HasMany
