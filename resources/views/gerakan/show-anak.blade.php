@@ -689,12 +689,13 @@
 </div>
 
 
-{{-- JAVASCRIPT BARU UNTUK YOUTUBE (MENGATUR AUTOMATIC JUMP & AUTO PAUSE) --}}
+{{{-- JAVASCRIPT BARU UNTUK YOUTUBE (DENGAN PERBAIKAN REPLAY / BISA DIPUTAR LAGI) --}}
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
     let player;
+    let tracker = null; // Menyimpan interval pemantau durasi
 
-    // Fungsi otomatis dipanggil setelah pustaka YouTube API selesai dimuat
+    // Otomatis dipanggil setelah pustaka YouTube API selesai dimuat
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('videoPembelajaran', {
             events: {
@@ -704,24 +705,28 @@
     }
 
     function onPlayerStateChange(event) {
-        // Pantau durasi hanya saat video sedang aktif diputar (PLAYING = 1)
+        // 1. JIKA VIDEO ACTIVE DIPUTAR (PLAYING = 1)
         if (event.data == YT.PlayerState.PLAYING) {
             
-            // Mengambil data detik dari Laravel (jika tidak ada, otomatis diisi null)
             const skipStart = {{ $skipStart ?? 'null' }};
             const skipEnd = {{ $skipEnd ?? 'null' }};
+            const startTime = {{ $startTime ?? 0 }};
             const endTime = {{ $endTime ?? 'null' }};
 
-            const tracker = setInterval(() => {
-                // Jika video dijeda atau dihentikan, stop pemantauan untuk hemat memori
+            // Bersihkan tracker lama jika ada untuk mencegah bentrok
+            if (tracker !== null) clearInterval(tracker);
+
+            tracker = setInterval(() => {
+                // Hentikan pemantauan jika video dijeda manual oleh pengguna
                 if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
                     clearInterval(tracker);
+                    tracker = null;
                     return;
                 }
 
                 let currentTime = player.getCurrentTime();
 
-                // 1. LOGIKA SKIP BAGIAN TENGAH
+                // LOGIKA SKIP BAGIAN TENGAH
                 if (skipStart !== null && skipEnd !== null) {
                     if (currentTime >= skipStart && currentTime < skipEnd) {
                         player.seekTo(skipEnd, true);
@@ -729,13 +734,23 @@
                     }
                 }
 
-                // 2. LOGIKA PAUSE OTOMATIS (Batas waktu gerakan selesai)
+                // LOGIKA PAUSE OTOMATIS (Batas waktu gerakan selesai)
                 if (endTime !== null && currentTime >= endTime) {
                     player.pauseVideo();
+                    
+                    // PENTING: Matikan tracker agar tombol play YouTube bisa merespons klik berikutnya
                     clearInterval(tracker);
-                    console.log(`Video dijeda otomatis karena masuk gerakan berikutnya di detik ${endTime}`);
+                    tracker = null; 
+
+                    console.log(`Video dijeda otomatis di detik ${endTime}`);
                 }
-            }, 200); // Diperiksa setiap 0.2 detik agar transisi perpindahan mulus
+            }, 200);
+        }
+
+        // 2. JIKA VIDEO SELESAI SEUTUHNYAATAU DI-RESET (ENDED = 0 / PAUSED)
+        // Jika user klik Play lagi setelah video habis/jeda otomatis, kita kembalikan ke detik start asal
+        if (event.data == YT.PlayerState.PAUSED && player.getCurrentTime() >= {{ $endTime ?? 99999 }}) {
+            player.seekTo({{ $startTime ?? 0 }}, true);
         }
     }
 </script>

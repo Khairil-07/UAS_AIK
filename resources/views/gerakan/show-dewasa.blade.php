@@ -657,38 +657,69 @@
     </div>
 </div>
 
-{{-- JAVASCRIPT BARU KHUSUS UNTUK BACA VIDEO LOKAL (.MP4) --}}
+{{-- JAVASCRIPT BARU UNTUK YOUTUBE (DENGAN PERBAIKAN REPLAY / BISA DIPUTAR LAGI) --}}
+<script src="https://www.youtube.com/iframe_api"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const video = document.getElementById('videoPembelajaran');
-        
-        // Detik dari Laravel
-        const startTime = {{ $videoStart ?? 0 }};
-        const endTime = {{ $videoEnd ?? 'null' }};
-        
-        if (video) {
-            // 1. Lompat ke detik mulai saat metadata video selesai dimuat browser
-            video.addEventListener('loadedmetadata', function() {
-                if (startTime > 0) {
-                    video.currentTime = startTime;
+    let player;
+    let tracker = null; // Menyimpan interval pemantau durasi
+
+    // Otomatis dipanggil setelah pustaka YouTube API selesai dimuat
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('videoPembelajaran', {
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    function onPlayerStateChange(event) {
+        // 1. JIKA VIDEO ACTIVE DIPUTAR (PLAYING = 1)
+        if (event.data == YT.PlayerState.PLAYING) {
+            
+            const skipStart = {{ $skipStart ?? 'null' }};
+            const skipEnd = {{ $skipEnd ?? 'null' }};
+            const startTime = {{ $startTime ?? 0 }};
+            const endTime = {{ $endTime ?? 'null' }};
+
+            // Bersihkan tracker lama jika ada untuk mencegah bentrok
+            if (tracker !== null) clearInterval(tracker);
+
+            tracker = setInterval(() => {
+                // Hentikan pemantauan jika video dijeda manual oleh pengguna
+                if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
+                    clearInterval(tracker);
+                    tracker = null;
+                    return;
                 }
-            });
 
-            // Antisipasi jika browser sudah memuat metadata lebih cepat sebelum event siap
-            if (video.readyState >= 1 && startTime > 0) {
-                video.currentTime = startTime;
-            }
+                let currentTime = player.getCurrentTime();
 
-            // 2. Gunakan event timeupdate (bawaan HTML5, lebih hemat memori dibanding setInterval)
-            if (endTime !== null) {
-                video.addEventListener('timeupdate', function() {
-                    if (video.currentTime >= endTime) {
-                        video.pause(); // Otomatis jeda video
-                        console.log("Video sukses dijeda di detik ke-" + video.currentTime + " karena batas waktu gerakan adalah " + endTime);
+                // LOGIKA SKIP BAGIAN TENGAH
+                if (skipStart !== null && skipEnd !== null) {
+                    if (currentTime >= skipStart && currentTime < skipEnd) {
+                        player.seekTo(skipEnd, true);
+                        console.log(`Berhasil melompati menit tengah dari detik ${skipStart} ke ${skipEnd}`);
                     }
-                });
-            }
+                }
+
+                // LOGIKA PAUSE OTOMATIS (Batas waktu gerakan selesai)
+                if (endTime !== null && currentTime >= endTime) {
+                    player.pauseVideo();
+                    
+                    // PENTING: Matikan tracker agar tombol play YouTube bisa merespons klik berikutnya
+                    clearInterval(tracker);
+                    tracker = null; 
+
+                    console.log(`Video dijeda otomatis di detik ${endTime}`);
+                }
+            }, 200);
         }
-    });
+
+        // 2. JIKA VIDEO SELESAI SEUTUHNYAATAU DI-RESET (ENDED = 0 / PAUSED)
+        // Jika user klik Play lagi setelah video habis/jeda otomatis, kita kembalikan ke detik start asal
+        if (event.data == YT.PlayerState.PAUSED && player.getCurrentTime() >= {{ $endTime ?? 99999 }}) {
+            player.seekTo({{ $startTime ?? 0 }}, true);
+        }
+    }
 </script>
 @endsection
