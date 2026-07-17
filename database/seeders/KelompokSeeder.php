@@ -12,8 +12,8 @@ class KelompokSeeder extends Seeder
     Kelompok::create([
     'nama_kelompok' => 'Kelompok 4',
     'prodi' => 'Sistem Informasi',
-    'mata_kuliah' => 'Pengembangan Aplikasi Web',
-    'dosen' => 'Nama Dosen',
+    'mata_kuliah' => 'AIK 4',
+    'dosen' => 'Dedy Susanto, S.Pd.I., M.M.',
 ]);
     }
 }

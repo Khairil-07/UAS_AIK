@@ -599,6 +599,7 @@
         <p class="mt-4 text-sm text-gray-400">QS. Thaha : 14</p>
     </div>
 </div>
+@endif
 
 </div> {{-- Penutup PANEL KANAN --}}
 </div> {{-- Penutup GRID --}}
