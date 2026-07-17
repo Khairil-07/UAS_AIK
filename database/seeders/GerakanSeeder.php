@@ -37,12 +37,13 @@ class GerakanSeeder extends Seeder
                 'gambar_anak' => 'gerakan/anak/takbiratul_ihram.png',
                 'gambar_dewasa' => 'gerakan/dewasa/takbiratul_ihram.png',
                 'video_start_anak' => 59,   
-                'video_start_dewasa' => 5, 
+                'video_start_dewasa' => 7, 
                 // Contoh: Skip menit tengah pada takbiratul ihram
                 'skip_start_anak' => 63, // Ganti angka detik jika ingin ada bagian yang dilompati
                 'skip_end_anak' => 80,
-                'skip_start_dewasa' => 10,
-                'skip_end_dewasa' => null,
+
+                'skip_start_dewasa' => 9,
+                'skip_end_dewasa' => 10,
             ],
             [
                 'nama_gerakan' => 'Berdiri',
@@ -51,12 +52,13 @@ class GerakanSeeder extends Seeder
                 'gambar_anak' => 'gerakan/anak/berdiri.png',
                 'gambar_dewasa' => 'gerakan/dewasa/berdiri.png',
                 'video_start_anak' => 81,  
-                'video_start_dewasa' => 10, 
+                'video_start_dewasa' => 11, 
                 
                 'skip_start_anak' => 229,
                 'skip_end_anak' => 241,
+
                 'skip_start_dewasa' => 235,
-                'skip_end_dewasa' => null,
+                'skip_end_dewasa' => 243,
             ],
             [
                 'nama_gerakan' => "Ruku'",
@@ -65,12 +67,13 @@ class GerakanSeeder extends Seeder
                 'gambar_anak' => 'gerakan/anak/ruku.png',
                 'gambar_dewasa' => 'gerakan/dewasa/ruku.png',
                 'video_start_anak' => 242,  
-                'video_start_dewasa' => 237, 
+                'video_start_dewasa' => 243, 
 
                 'skip_start_anak' => 252,
                 'skip_end_anak' => 271,
+
                 'skip_start_dewasa' => 248,
-                'skip_end_dewasa' => null,
+                'skip_end_dewasa' => 249,
             ],
             [
                 'nama_gerakan' => "I'tidal",
@@ -83,6 +86,7 @@ class GerakanSeeder extends Seeder
 
                 'skip_start_anak' => 279,
                 'skip_end_anak' => 296,
+
                 'skip_start_dewasa' => 259,
                 'skip_end_dewasa' => null,
             ],
@@ -97,6 +101,7 @@ class GerakanSeeder extends Seeder
                 
                 'skip_start_anak' => 307,
                 'skip_end_anak' => 323,
+
                 'skip_start_dewasa' => 273,
                 'skip_end_dewasa' => null,
             ], 
@@ -111,6 +116,7 @@ class GerakanSeeder extends Seeder
 
                 'skip_start_anak' => 334,
                 'skip_end_anak' => 346,
+
                 'skip_start_dewasa' => 286,
                 'skip_end_dewasa' => null,
             ],
@@ -125,6 +131,7 @@ class GerakanSeeder extends Seeder
 
                 'skip_start_anak' => 355,
                 'skip_end_anak' => 382,
+
                 'skip_start_dewasa' => 299,
                 'skip_end_dewasa' => null,
             ],
@@ -135,11 +142,12 @@ class GerakanSeeder extends Seeder
                 'gambar_anak' => 'gerakan/anak/tasyahud_awal.png',
                 'gambar_dewasa' => 'gerakan/dewasa/tasyahud_awal.png',
                 'video_start_anak' => 383,  
-                'video_start_dewasa' => 484, 
+                'video_start_dewasa' => 489, 
 
                 'skip_start_anak' => 477,
                 'skip_end_anak' => 498,
-                'skip_start_dewasa' => 513,
+
+                'skip_start_dewasa' => 555,
                 'skip_end_dewasa' => null,
             ],
             [
@@ -149,11 +157,12 @@ class GerakanSeeder extends Seeder
                 'gambar_anak' => 'gerakan/anak/tasyahud_akhir.png',
                 'gambar_dewasa' => 'gerakan/dewasa/tasyahud_akhir.png',
                 'video_start_anak' => 499,  
-                'video_start_dewasa' => 288, 
+                'video_start_dewasa' => 489, 
 
                 'skip_start_anak' => 601,
                 'skip_end_anak' => 621,
-                'skip_start_dewasa' => 552,
+
+                'skip_start_dewasa' => 555,
                 'skip_end_dewasa' => null,
             ],
             [
@@ -163,7 +172,7 @@ class GerakanSeeder extends Seeder
                 'gambar_anak' => 'gerakan/anak/salam.png',
                 'gambar_dewasa' => 'gerakan/dewasa/salam.png',
                 'video_start_anak' => 622,  
-                'video_start_dewasa' => 553, 
+                'video_start_dewasa' => 554, 
 
                 'skip_start_anak' => 634,
                 'skip_end_anak' => 639,
