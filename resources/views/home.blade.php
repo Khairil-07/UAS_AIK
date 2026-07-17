@@ -8,7 +8,7 @@
 <!-- HERO -->
 <!-- ========================================= -->
 
-<section class="bg-white">
+<section class="pt-30 bg-white">
 
     <div class="max-w-6xl mx-auto px-6 py-20">
 

@@ -60,28 +60,58 @@
 
             </a>
 
-            <!-- Menu -->
-            <div class="hidden md:flex items-center gap-2">
+            <!-- ========================= -->
+            <!-- MENU -->
+            <!-- ========================= -->
+            <div class="hidden md:flex justify-center items-center gap-3">
 
                 <a href="{{ route('home') }}"
-                    class="px-4 py-2 rounded-xl font-medium text-gray-700 hover:bg-green-50 hover:text-green-700 transition">
+                    class="px-5 py-2 rounded-xl font-medium text-gray-700 hover:bg-green-100 hover:text-green-700 transition">
                     Beranda
                 </a>
 
                 <a href="{{ route('gerakan.index',2) }}"
-                    class="px-4 py-2 rounded-xl font-medium text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition">
+                    class="px-5 py-2 rounded-xl font-medium text-gray-700 hover:bg-sky-100 hover:text-sky-700 transition">
                     Mode Anak
                 </a>
 
                 <a href="{{ route('gerakan.index',1) }}"
-                    class="px-4 py-2 rounded-xl font-medium text-gray-700 hover:bg-green-50 hover:text-green-700 transition">
+                    class="px-5 py-2 rounded-xl font-medium text-gray-700 hover:bg-emerald-100 hover:text-emerald-700 transition">
                     Mode Dewasa
                 </a>
+
+            </div>
+
+            <!-- ========================= -->
+            <!-- ANGGOTA KELOMPOK -->
+            <!-- ========================= -->
+            <div class="flex justify-end">
+
+                <div class="bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 shadow-sm">
+
+                    <h3 class="text-xs font-bold text-green-700 uppercase mb-2">
+                        Kelompok 4
+                    </h3>
+
+                    <ul class="space-y-1 text-xs text-gray-600">
+
+                        <li>👤 Abdu Syaril</li>
+
+                        <li>👤 Khairil Abdillah</li>
+
+                        <li>👤 Muhammad Parel Ramadhan</li>
+
+                        <li>👤 Dimaz Airlangga Dwiansyah</li>
+
+                    </ul>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
 </nav>
 ```

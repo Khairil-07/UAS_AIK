@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="min-h-screen pt-24 bg-gradient-to-br from-slate-100 via-sky-50 to-emerald-50">
+<div class="min-h-screen pt-30 bg-gradient-to-br from-slate-100 via-sky-50 to-emerald-50">
 
     {{-- =========================
             BREADCRUMB

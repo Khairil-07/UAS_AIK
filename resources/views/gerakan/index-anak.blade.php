@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="min-h-screen bg-gray-50 pt-24">
+<div class="min-h-screen bg-gray-50 pt-30">
 
     {{-- ===========================
         HEADER
