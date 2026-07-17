@@ -21,7 +21,7 @@ class GerakanSeeder extends Seeder
 
         // 2. OTOMATIS UPDATE ID YOUTUBE KE TABEL MODES
         Mode::where('nama_mode', 'like', '%anak%')->update([
-            'video_pembelajaran' => '2v6xaa19TeI'
+            'video_pembelajaran' => 'Hs9obNtwTMY'
         ]);
         Mode::where('nama_mode', 'like', '%dewasa%')->update([
             'video_pembelajaran' => 'QtSj1HQeZ24'
