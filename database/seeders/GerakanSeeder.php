@@ -162,7 +162,7 @@ class GerakanSeeder extends Seeder
                 'skip_start_anak' => 601,
                 'skip_end_anak' => 621,
 
-                'skip_start_dewasa' => 555,
+                'skip_start_dewasa' => 554,
                 'skip_end_dewasa' => null,
             ],
             [
